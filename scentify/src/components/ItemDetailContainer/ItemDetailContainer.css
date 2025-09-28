@@ -1,0 +1,65 @@
+.detail-container {
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+}
+
+.detail-card {
+  display: flex;
+  max-width: 900px;
+  width: 100%;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
+  overflow: hidden;
+}
+
+.detail-img {
+  width: 50%;
+  object-fit: cover;
+}
+
+.detail-info {
+  flex: 1;
+  padding: 20px;
+  text-align: center;
+}
+
+.detail-info h2 {
+  color: black;
+  margin-bottom: 16px;
+  font-size: 1.8rem;
+}
+
+.detail-price {
+  font-size: 1.2rem;
+  color: #2c3e50;
+  margin-bottom: 12px;
+}
+
+.detail-desc {
+  color: black;
+  font-size: 1rem;
+  opacity: 0.8;
+  margin-bottom: 20px;
+}
+
+.detail-btn {
+  background: #2c3e50;
+  color: #fff;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.detail-btn:hover {
+  background: #1a242f;
+}
+
+.detail-volver {
+    color: grey;
+    width: 100%;
+}

@@ -20,7 +20,7 @@ export function CartProvider( { children }){
         if (isInCart) {
         const index = cartItems.findIndex(item => item.id === newItem.id)
         newCart[index].quantity = (newCart[index].quantity || 0) + quantityCount;
-        alert(`Sumaste ${quantityCount} unidad(es) al carrito"+`)
+        alert(`Sumaste ${quantityCount} unidad(es) al carrito`)
         }
         else {
         newItem.quantity = quantityCount

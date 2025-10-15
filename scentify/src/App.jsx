@@ -5,6 +5,7 @@ import NavBar from './components/NavBar/NavBar'
 import { BrowserRouter, Routes, Route } from 'react-router'
 import NotFound from './components/NotFound'
 import { CartProvider } from './context/CartContext'
+import CartContainer from "./components/CartContainer/CartContainer";
 
 function App() {
   // * 1: Encapsular toda la app con BrowserRouter
@@ -29,7 +30,7 @@ function App() {
               />
               <Route
                 path="/cart"
-                element={ <div><h1>Carrito de compras</h1> Proceder a comprar</div>}
+                element={ <CartContainer />}
               />  
               <Route path="*" element={ <NotFound />} /> 
           </Routes>

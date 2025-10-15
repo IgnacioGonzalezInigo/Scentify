@@ -12,16 +12,15 @@ export function CartProvider( { children }){
     const [cartItems, setCartItems] = useState([]);
     // ? CRUD -> Create/Read/Update/Delete 
 
-    function addItem(newItem) {
-        const quantityCount = 1;
+    function addItem(newItem,quantityCount = 1) {
         //cartItems.push( {newItem: "Item"} ) -> MAL❌
         const newCart = structuredClone(cartItems)
         const isInCart = cartItems.some(item => item.id === newItem.id)
 
         if (isInCart) {
         const index = cartItems.findIndex(item => item.id === newItem.id)
-        newCart[index].quantity += quantityCount
-        alert("Sumaste otra unidad al carrito")
+        newCart[index].quantity = (newCart[index].quantity || 0) + quantityCount;
+        alert(`Sumaste ${quantityCount} unidad(es) al carrito"+`)
         }
         else {
         newItem.quantity = quantityCount

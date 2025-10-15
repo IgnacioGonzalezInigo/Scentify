@@ -1,3 +1,13 @@
-export default function CartWidget(){
-  return <span>🛒 (1) </span>
+import { useContext } from "react";
+
+import { CartContext } from "../../context/CartContext";
+
+export default function CartWidget() {
+  const { countCartItems } = useContext(CartContext);
+
+  return (
+    <span>
+      🛒 ({countCartItems()})
+    </span>
+  );
 }

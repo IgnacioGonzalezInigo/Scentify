@@ -2,6 +2,7 @@ import { useParams, Link } from "react-router";
 import { getProductById } from "../../data/mockAPI";
 import { useEffect, useState } from "react";
 import "./ItemDetailContainer.css";
+import ItemCount from "./ItemCount";
 
 function ItemDetailContainer(){  
   const { idParam } = useParams();
@@ -29,7 +30,7 @@ function ItemDetailContainer(){
           <h2>{product.title}</h2>
           <p className="detail-price">PRECIO: ${product.price}</p>
           <p className="detail-desc">{product.description}</p>
-          <button className="detail-btn">Agregar al carrito</button>
+          <ItemCount stock={product.stock} onAdd={(qty) => alert(`Agregaste ${qty} unidades`)} />
           <Link className = "detail-volver"  to="/">Volver al listado</Link>
         </div>
       </div>

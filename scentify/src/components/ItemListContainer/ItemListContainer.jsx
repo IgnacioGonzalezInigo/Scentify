@@ -36,7 +36,7 @@ export default function ItemListContainer( props ){
       {
         products.map( function(item) 
         { return <Item 
-          key={item.id} 
+          key={item.idProd} 
           {...item}          
         />})
       }

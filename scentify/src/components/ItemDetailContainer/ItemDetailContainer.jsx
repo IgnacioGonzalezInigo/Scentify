@@ -15,6 +15,7 @@ function ItemDetailContainer(){
 
 
   useEffect( () => {
+    console.log("idParam recibido:", idParam);
     getProductById(idParam)
       .then( reponse => setProduct(reponse))
       .catch( error => alert(error))

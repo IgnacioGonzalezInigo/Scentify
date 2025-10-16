@@ -5,7 +5,7 @@ import {
   getDocs, getDoc, query, where,
   addDoc, serverTimestamp
 } from "firebase/firestore";
-import products from "../data/products.js";
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyBclqmU4Rnn4qACghvpF9IHGgOs6EoflmY",
@@ -34,10 +34,20 @@ export async function getProductsByCategory(categ) {
 }
 
 export async function getProductById(id) {
-  const ref = doc(db, "products", id);
-  const snap = await getDoc(ref);
-  if (!snap.exists()) throw new Error("Producto no encontrado");
-  return { id: snap.id, ...snap.data() };
+  const idNumber = Number(id); // convierte el parámetro a número
+
+  // Crea una consulta para buscar por campo 'idProd'
+  const q = query(collection(db, "products"), where("idProd", "==", idNumber));
+  const snap = await getDocs(q);
+
+  if (snap.empty) {
+    throw new Error("Producto no encontrado");
+  }
+
+  // Toma el primer resultado (solo debería haber uno)
+  const docSnap = snap.docs[0];
+
+  return { id: docSnap.id, ...docSnap.data() };
 }
 
 

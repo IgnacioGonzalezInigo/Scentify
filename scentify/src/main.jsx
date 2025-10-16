@@ -1,13 +1,10 @@
-import { createRoot } from 'react-dom/client'
-import './index.css'
-// Componente "<App>"
-import App from './App.jsx'
+import { createRoot } from 'react-dom/client';
+import { exportProductsToFirestore } from "./data/firebase.js";
+import './index.css';
+import App from './App.jsx';
 
-// Tomamos el nodo raiz del HTML
+exportProductsToFirestore(); // Ejecutar SOLO una vez para subir productos
+
 const rootDiv = document.getElementById('root');
-
-// lo asignamos como "root" de react
 const reactRoot = createRoot(rootDiv);
-
-// renderizamos nuestra App
-reactRoot.render( <App/> );
+reactRoot.render(<App />);

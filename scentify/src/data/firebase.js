@@ -5,8 +5,7 @@ import {
   getDocs, getDoc, query, where,
   addDoc, serverTimestamp
 } from "firebase/firestore";
-import products from "../data/products.json";
-
+import products from "../data/products.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBclqmU4Rnn4qACghvpF9IHGgOs6EoflmY",
@@ -21,16 +20,25 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 
+// --- Para cargar solo una vez los productos a firestore
+export async function exportProductsToFirestore() {
+  const col = collection(db, "products");
+  for (const p of products) {
+    await addDoc(col, p);
+  }
+  console.log("Productos cargados a Firestore");
+}
 
+// --- Lecturas ---
 export async function getProducts() {
   const snap = await getDocs(collection(db, "products"));
-  return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  return snap.docs.map(d => ({ docId: d.id, ...d.data() })); // no pisamos
 }
 
 export async function getProductsByCategory(categ) {
   const q = query(collection(db, "products"), where("category", "==", categ));
   const snap = await getDocs(q);
-  return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  return snap.docs.map(d => ({ docId: d.id, ...d.data() }));
 }
 
 export async function getProductById(id) {
@@ -48,23 +56,4 @@ export async function createOrder(order) {
     createdAt: serverTimestamp(),
   });
   return ref.id; 
-}
-
-// Esto lo utilice en la facu para subir a firestore
-
-export async function subirProductosAFirestore (){
-  const ref = collection(db, "products");
-  for (const raw of products){
-    const obj = {
-      title: String(raw.title),
-      description: String(raw.description),
-      price: Number(raw.price),
-      category: String(raw.category),
-      img: String(raw.img),
-      stock: Number(raw.stock),
-      id: Number(raw.id),
-    }
-    await addDoc(ref, obj);
-  }
-  return true;
 }

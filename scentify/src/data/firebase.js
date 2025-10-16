@@ -20,14 +20,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 
-// --- Para cargar solo una vez los productos a firestore
-export async function exportProductsToFirestore() {
-  const col = collection(db, "products");
-  for (const p of products) {
-    await addDoc(col, p);
-  }
-  console.log("Productos cargados a Firestore");
-}
 
 // --- Lecturas ---
 export async function getProducts() {

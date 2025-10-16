@@ -1,97 +1,70 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { addDoc, collection, doc, getDoc, getDocs, getFirestore, query, where } from "firebase/firestore";
-import products from "./products";
+import {
+  getFirestore,
+  collection, doc,
+  getDocs, getDoc, query, where,
+  addDoc, serverTimestamp
+} from "firebase/firestore";
+import products from "../data/products.json";
+
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIRESTORE_APIKEY,
-  authDomain: import.meta.env.VITE_FIRESTORE_AUTHDOMAIN,
-  projectId: import.meta.env.VITE_FIRESTORE_PROEJECTID,
-  storageBucket: import.meta.env.VITE_FIRESTORE_BUCKET,
-  messagingSenderId: "836080654787",
-  appId: import.meta.env.VITE_FIRESTORE_APPID
+  apiKey: "AIzaSyBclqmU4Rnn4qACghvpF9IHGgOs6EoflmY",
+  authDomain: "scentify-ecommerce.firebaseapp.com",
+  projectId: "scentify-ecommerce",
+  storageBucket: "scentify-ecommerce.firebasestorage.app",
+  messagingSenderId: "888603337731",
+  appId: "1:888603337731:web:e9d96b3f8ba335d8e35a36",
+  measurementId: "G-2Y81F6H37T"
 };
 
-
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+export const db = getFirestore(app);
 
-// * Leer en la base de datos
 
-export async function getProducts(){
-  // referencia a una coleccion
-  const productsRef = collection(db, "products");
+export async function getProducts() {
+  const snap = await getDocs(collection(db, "products"));
+  return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+}
 
-  // leer el estado de mi colección
-  const productsSnapshot = await getDocs(productsRef)  
-  // getDocs(productsRef).then ( (snapshot) => { ... } )
+export async function getProductsByCategory(categ) {
+  const q = query(collection(db, "products"), where("category", "==", categ));
+  const snap = await getDocs(q);
+  return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+}
 
-  // mapear el array de docs a un array de docs.data()
-  const dataDocs = productsSnapshot.docs.map( doc => {
-    return { id: doc.id, ...doc.data() }
-  } )
-
-  //reject
-  if (dataDocs.length < 1)
-    throw( new Error("No encontramos ningùn resultado"));
-
-  return dataDocs;
+export async function getProductById(id) {
+  const ref = doc(db, "products", id);
+  const snap = await getDoc(ref);
+  if (!snap.exists()) throw new Error("Producto no encontrado");
+  return { id: snap.id, ...snap.data() };
 }
 
 
-
-/**
- * Retorna un producto de firestore
- * @param idParam {string} id: representa el id del producto
- */
-export async function getProductById(idParam){
-  // 1 -> Referencia a UN document -> getDoc(ref)
-  const docRef = doc(db, "products", idParam)
-  const documentSnapshot = await getDoc(docRef);
-  return { id: documentSnapshot.id, ...documentSnapshot.data()}  
+export async function createOrder(order) {
+  // order: { buyer, items, total }
+  const ref = await addDoc(collection(db, "orders"), {
+    ...order,
+    createdAt: serverTimestamp(),
+  });
+  return ref.id; 
 }
 
-export async function getProductsByCategory(categParam){
-   const productsRef = collection(db, "products");
+// Esto lo utilice en la facu para subir a firestore
 
-   // Creamos la custom query
-   //const q = query(collection(db, "cities"), where("capital", "==", true));
-   const q = query(productsRef, where("category", "==", categParam ));
-
-   const productsSnapshot = await getDocs(q);
-
-   const dataDocs = productsSnapshot.docs.map( doc => ( { id: doc.id, ...doc.data()}) )
-   
-   //reject
-    if (dataDocs.length < 1)
-    throw( new Error("No encontramos ningùn resultado"));
-
-   return dataDocs
-}
-
-// * escribir en la base de datos
-
-// *. Guardar la compra realizada por el usuario
-export async function createOrder(orderData){
-  // referencia a una colección -> orders
-  const ordersRef = collection(db, "orders");
-
-  // agregar el documento a esa colectionRef -> addDoc()
-  const newDoc = await addDoc(ordersRef,orderData)  
-  return newDoc;
-}
-
-// *. Function helper -> exportar todos los products a firestore
-export async function subirProductosAFirestore(){
-  // ! forEach() -> async -> MAL
-  
-  // ? for ... of  -> OK
-  // products.forEach( item => {})
-  for(let item of products) {
-    delete item.id;
-    const newDoc = await addDoc(collection(db, "products"), item)
-    console.log("item created", newDoc.id)
+export async function subirProductosAFirestore (){
+  const ref = collection(db, "products");
+  for (const raw of products){
+    const obj = {
+      title: String(raw.title),
+      description: String(raw.description),
+      price: Number(raw.price),
+      category: String(raw.category),
+      img: String(raw.img),
+      stock: Number(raw.stock),
+      id: Number(raw.id),
+    }
+    await addDoc(ref, obj);
   }
+  return true;
 }
-
-export default app;

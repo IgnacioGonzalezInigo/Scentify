@@ -1,7 +1,7 @@
 // * Mostrar el listado de items/productos de nuestra tienda
 // * de forma dinámica usando Array.map()
 
-import getProducts, { getProductsByCategory } from "../../data/mockAPI";
+import getProducts, { getProductsByCategory } from "../../data/firebase";
 import Item from "./Item";
 import { useEffect, useState} from "react"
 import './ItemListContainer.css'

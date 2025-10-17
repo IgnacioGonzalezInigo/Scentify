@@ -34,7 +34,7 @@ export async function getProductsByCategory(categ) {
 }
 
 export async function getProductById(id) {
-  const idNumber = Number(id); // convierte el parámetro a número
+  const idNumber = Number(id); 
 
   // Crea una consulta para buscar por campo 'idProd'
   const q = query(collection(db, "products"), where("idProd", "==", idNumber));
@@ -44,7 +44,6 @@ export async function getProductById(id) {
     throw new Error("Producto no encontrado");
   }
 
-  // Toma el primer resultado (solo debería haber uno)
   const docSnap = snap.docs[0];
 
   return { id: docSnap.id, ...docSnap.data() };

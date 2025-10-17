@@ -30,10 +30,18 @@ export function CartProvider({ children }) {
         });
     }
 
-    
     function increaseItem(id) {
         setCartItems((prev) =>
-        prev.map((i) => (i.id === id ? { ...i, quantity: (i.quantity || 0) + 1 } : i))
+        prev.map((item) => {
+            if (item.id !== id) return item;
+            const quantity = Number(item.quantity || 0);
+            const stock = item.stock === undefined ? undefined : Number(item.stock);
+        
+            if (stock === undefined || quantity + 1 <= stock) {
+            return { ...item, quantity: quantity + 1 };
+            }
+            return item;
+        })
         );
     }
 
@@ -58,8 +66,8 @@ export function CartProvider({ children }) {
             cartItems,
             addItem,
             removeItem,
-            decreaseItem,   // 👈 nuevo
-            increaseItem,   // 👈 opcional (útil para +)
+            decreaseItem,   
+            increaseItem,   
             clearCart,
             countCartItems,
             countTotalPrice,

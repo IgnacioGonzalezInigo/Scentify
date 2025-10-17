@@ -1,10 +1,38 @@
-# Pre-entrega Nº 2
- 
- - Instalar react-router (npm i react-router)
- - Configurar en el componente App la navegación con los componentes: BrowserRouter, Routes, Route
- - Genera links con el componente Link para poder navegar
- - Crear ItemDetailContainer, mostrando los detalles de un producto
- - Crear Item, que representa la Card de cada producto dentro del listado
- - En IDC, leer la URL con useParams(), obtener el ID y buscar un unico producto con ese ID
- - EN ILC, leer la URL con useParams(), obtener la cteogria y buscar un listado de productos segun esa categoria
- - Tanto ItemDetail como ItemList, deben leer los datos de forma asíncrona ( useEffect - useState)
+ENTREGA FINAL – González Iñigo Ignacio (Ing. Informática)
+
+Scentify – E-commerce de Perfumes (React + Firebase)
+
+Objetivo del proyecto:
+Liste productos desde Firestore y muestre su detalle.
+Mostrar productos y navegar por filtros.
+Agregar al carrito, ajustar cantidades con límite por stock.
+Realizar checkout: crea una orden en Firestore y descuenta stock.
+Muestre confirmación con ID de orden.
+
+Como correr el proyecto:
+1) Clonar
+git clone https://github.com/IgnacioGonzalezInigo/Scentify
+cd Scentify
+2) Instalar dependencias
+npm i   (o npm ci)
+3) Variables de entorno (crear .env con tus claves)
+cp .env.example .env  # y completar valores
+4) Ejecutar en desarrollo
+npm run dev
+
+
+
+
+
+
+
+
+
+
+
+
+
+👤 Autor
+
+González Iñigo Ignacio – Estudiante de Ingeniería Informática.
+Proyecto final: Scentify (e-commerce de perfumes).

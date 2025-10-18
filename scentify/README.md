@@ -11,13 +11,11 @@ Muestre confirmación con ID de orden.
 
 Como correr el proyecto:
 1) Clonar
-git clone https://github.com/IgnacioGonzalezInigo/Scentify
-cd Scentify/scentify
+git clone https://github.com/IgnacioGonzalezInigo/ProyectoFinalGonzalezInigo.git
+cd ProyectoFinalGonzalezInigo/scentify
 2) Instalar dependencias
-npm i   (o npm ci)
-3) Variables de entorno (crear .env con tus claves)
-cp .env.example .env  # y completar valores
-4) Ejecutar en desarrollo
+npm i   
+3) Ejecutar en desarrollo
 npm run dev
 
 
